@@ -13,3 +13,13 @@ export function getAppointmentsForDay(state, day) {
   //console.log(appointmentsForDay);
   return appointmentsForDay;
 }
+
+export function getInterview(state, interview) {
+  if (!interview) return null;
+  const { interviewer: interviewerId } = interview;
+  //console.log(interviewerId)
+  const interviewerDetails = state.interviewers[interviewerId];
+  const interviewDetails = { ...interview, interviewer: interviewerDetails };
+  //console.log(interviewDetails)
+  return interviewDetails;
+}
