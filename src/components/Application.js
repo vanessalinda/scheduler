@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import "styles/Application.scss";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 import DayList from "./DayList";
 import Appointment from "./Appointment";
@@ -49,6 +53,8 @@ import Appointment from "./Appointment";
 export default function Application(props) {
   // const [days, setDays] = useState([]);
   // const [day, setDay] = useState("Monday");
+
+  // State Object
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -63,6 +69,7 @@ export default function Application(props) {
   const setDay = (day) => setState({ ...state, day });
   //const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
+  // Grabbing state data from the server
   useEffect(() => {
     // axios.get(`/api/days`).then((response) => {
     //   console.log(response.data);
@@ -85,7 +92,13 @@ export default function Application(props) {
     });
   }, []);
 
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
+  // Setting the schedule component dynamically
   const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -96,10 +109,13 @@ export default function Application(props) {
         id={appointment.id}
         time={appointment.time}
         interview={interview}
+        interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
 
+  // Application component
   return (
     <main className="layout">
       <section className="sidebar">
