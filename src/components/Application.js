@@ -36,10 +36,11 @@ export default function Application(props) {
     //   console.log(response.data);
     //   //setDays(response.data);
     // });
+    const base = `http://localhost:8001/api`;
     Promise.all([
-      axios.get("/api/days"),
-      axios.get("/api/appointments"),
-      axios.get("/api/interviewers"),
+      axios.get(`${base}/days`),
+      axios.get(`${base}/appointments`),
+      axios.get(`${base}/interviewers`),
     ]).then((all) => {
       //console.log(all[0]); // first
       // console.log(all[1]); // second
@@ -65,13 +66,18 @@ export default function Application(props) {
     };
     console.log(appointment);
     //console.log()
-    setState({
-      ...state,
-      appointments,
-    });
+    // setState({
+    //   ...state,
+    //   appointments,
+    // });
     // return axios.put(`/api/appointments/${id}`, { ...appointment }).then(() => {
     //   setState({ ...state, appointments });
     // });
+    return axios
+      .put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
+      .then(() => {
+        setState({ ...state, appointments });
+      });
   }
 
   // Setting the schedule component dynamically
