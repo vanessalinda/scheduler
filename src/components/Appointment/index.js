@@ -14,6 +14,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
+  //save function
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -21,6 +22,8 @@ export default function Appointment(props) {
     };
 
     props.bookInterview(props.id, interview);
+    //.then(() => transition(SHOW));
+    transition(SHOW);
   }
 
   return (
@@ -39,7 +42,7 @@ export default function Appointment(props) {
           //interviewer={3}
           interviewers={props.interviewers}
           //onSave={action("onSave")}
-          onCancel={() => back()}
+          onCancel={back}
           onSave={save}
         />
       )}
