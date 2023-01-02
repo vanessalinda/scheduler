@@ -15,23 +15,15 @@ const useApplicationData = () => {
   //const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const setDay = (day) => setState({ ...state, day });
-  //const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   // Grabbing state data from the server
   useEffect(() => {
-    // axios.get(`/api/days`).then((response) => {
-    //   console.log(response.data);
-    //   //setDays(response.data);
-    // });
     const base = `http://localhost:8001/api`;
     Promise.all([
       axios.get(`${base}/days`),
       axios.get(`${base}/appointments`),
       axios.get(`${base}/interviewers`),
     ]).then((all) => {
-      //console.log(all[0]); // first
-      // console.log(all[1]); // second
-      //console.log(all[2].data); // third
       setState((prev) => ({
         ...prev,
         days: all[0].data,
@@ -41,9 +33,42 @@ const useApplicationData = () => {
     });
   }, []);
 
+  //Updating spots available
+  const updateSpots = (state, appointments, id) => {
+    const interviewStatePrev = state.appointments[id].interview;
+    const interviewStatePost = appointments[id].interview;
+    let modifier = 0;
+
+    // Handle Update
+    if (interviewStatePrev !== null && interviewStatePost !== null) {
+      modifier = 0;
+    }
+
+    // Handle Delete
+    else if (interviewStatePrev !== null && interviewStatePost === null) {
+      modifier = 1;
+    }
+
+    // Handle Create
+    else if (interviewStatePrev === null && interviewStatePost !== null) {
+      modifier = -1;
+    }
+
+    const updatedDays = state.days.map((day) => {
+      // Find the day where the appointments array includes the ID
+      if (day.appointments.includes(id)) {
+        // Update the spots value with the appropriate modifier
+        return { ...day, spots: day.spots + modifier };
+      }
+      return day;
+    });
+
+    return updatedDays;
+  };
+
   // Creating an appointment
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    //console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -53,18 +78,12 @@ const useApplicationData = () => {
       [id]: appointment,
     };
     console.log(appointment);
-    //console.log()
-    // setState({
-    //   ...state,
-    //   appointments,
-    // });
-    // return axios.put(`/api/appointments/${id}`, { ...appointment }).then(() => {
-    //   setState({ ...state, appointments });
-    // });
+
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
       .then(() => {
-        setState({ ...state, appointments });
+        const days = updateSpots(state, appointments, id);
+        setState({ ...state, days, appointments });
       });
   }
 
@@ -85,7 +104,8 @@ const useApplicationData = () => {
         ...appointment,
       })
       .then(() => {
-        setState({ ...state, appointments });
+        const days = updateSpots(state, appointments, id);
+        setState({ ...state, days, appointments });
       });
   }
 
