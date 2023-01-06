@@ -37,28 +37,28 @@ const useApplicationData = () => {
   const updateSpots = (state, appointments, id) => {
     const interviewStatePrev = state.appointments[id].interview;
     const interviewStatePost = appointments[id].interview;
-    let modifier = 0;
+    let spotsChange = 0;
 
     // Handle Update
     if (interviewStatePrev !== null && interviewStatePost !== null) {
-      modifier = 0;
+      spotsChange = 0;
     }
 
     // Handle Delete
     else if (interviewStatePrev !== null && interviewStatePost === null) {
-      modifier = 1;
+      spotsChange = 1;
     }
 
     // Handle Create
     else if (interviewStatePrev === null && interviewStatePost !== null) {
-      modifier = -1;
+      spotsChange = -1;
     }
 
     const updatedDays = state.days.map((day) => {
       // Find the day where the appointments array includes the ID
       if (day.appointments.includes(id)) {
-        // Update the spots value with the appropriate modifier
-        return { ...day, spots: day.spots + modifier };
+        // Update the spots value with the appropriate spotsChange
+        return { ...day, spots: day.spots + spotsChange };
       }
       return day;
     });
