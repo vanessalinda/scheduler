@@ -18,11 +18,11 @@ const useApplicationData = () => {
 
   // Grabbing state data from the server
   useEffect(() => {
-    const base = `http://localhost:8001`;
+    //const base = `http://localhost:8001`;
     Promise.all([
-      axios.get(`${base}/api/days`),
-      axios.get(`${base}/api/appointments`),
-      axios.get(`${base}/api/interviewers`),
+      axios.get(`/api/days`),
+      axios.get(`/api/appointments`),
+      axios.get(`/api/interviewers`),
     ]).then((all) => {
       setState((prev) => ({
         ...prev,
