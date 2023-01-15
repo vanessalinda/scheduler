@@ -1,4 +1,3 @@
-//import { waitForElement } from "@testing-library/react";
 export default {
   defaults: { baseURL: "" },
   get: jest.fn((url) => {

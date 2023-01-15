@@ -1,5 +1,13 @@
 # Interview Scheduler
 
+## About Interview Scheduler
+
+Interview Scheduler is a single-page application (SPA) that allows users to book, cancel or edit technical interviews between students and mentors. t was made using React, Axios, Node.js, Storybook, Cypress, Jest, and postgreSQL.
+
+## Features
+
+### Creating an interview
+
 ## Setup
 
 Install dependencies with `npm install`.
