@@ -5,7 +5,6 @@ import "../styles/interviewerlistitem.scss";
 export default function InterviewerListItem(props) {
   const interviewerClass = classNames("interviewers__item", {
     "interviewers__item--selected": props.selected,
-    //"day-list__item--full": props.spots === 0,
   });
   return (
     <li className={interviewerClass} onClick={props.setInterviewer}>

@@ -6,19 +6,15 @@ const useApplicationData = () => {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
     interviewers: {},
   });
 
-  //const dailyAppointments = [];
-  //const dailyAppointments = getAppointmentsForDay(state, state.day);
-
   const setDay = (day) => setState({ ...state, day });
 
   // Grabbing state data from the server
+  axios.defaults.baseURL = "http://localhost:8001";
   useEffect(() => {
-    //const base = `http://localhost:8001`;
     Promise.all([
       axios.get(`/api/days`),
       axios.get(`/api/appointments`),
@@ -68,7 +64,6 @@ const useApplicationData = () => {
 
   // Creating an appointment
   function bookInterview(id, interview) {
-    //console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -77,7 +72,6 @@ const useApplicationData = () => {
       ...state.appointments,
       [id]: appointment,
     };
-    console.log(appointment);
 
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, { ...appointment })
@@ -89,7 +83,6 @@ const useApplicationData = () => {
 
   // Cancelling an appointment
   function cancelInterview(id) {
-    //console.log(id);
     const appointment = {
       ...state.appointments[id],
       interview: null,
@@ -98,7 +91,6 @@ const useApplicationData = () => {
       ...state.appointments,
       [id]: appointment,
     };
-    //console.log(appointment);
     return axios
       .delete(`http://localhost:8001/api/appointments/${id}`, {
         ...appointment,

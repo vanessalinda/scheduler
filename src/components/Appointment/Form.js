@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
-//import { fireEvent } from "@testing-library/react";
 
 export default function Form(props) {
   const [student, setStudent] = useState(props.student || "");
@@ -45,10 +44,6 @@ export default function Form(props) {
             value={student}
             onChange={(e) => setStudent(e.target.value)}
             data-testid="student-name-input"
-            /*
-          This must be a controlled component
-          your code goes here
-        */
           />
           <section className="appointment__validation">{error}</section>
         </form>
