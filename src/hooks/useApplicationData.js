@@ -13,7 +13,6 @@ const useApplicationData = () => {
   const setDay = (day) => setState({ ...state, day });
 
   // Grabbing state data from the server
-  axios.defaults.baseURL = "http://localhost:8001";
   useEffect(() => {
     Promise.all([
       axios.get(`/api/days`),
